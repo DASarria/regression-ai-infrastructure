@@ -1,0 +1,226 @@
+================================================================================
+AUTOMATIC COPILOT EVALUATION – TA GRADING REPORT
+Course: Digital Transformation and Enterprise Architecture
+Assignment: Stellar Luminosity – Linear and Polynomial Regression from First Principles
+================================================================================
+
+
+--------------------------------------------------------------------------------
+SUMMARY
+--------------------------------------------------------------------------------
+The repository presents a solid, well-organized implementation of both linear and
+polynomial regression from first principles. Both notebooks adhere closely to the
+assignment specification, implementing hypothesis functions, MSE cost, analytical
+gradients, vectorized and non-vectorized gradient descent, and all mandatory
+experiments. The code is technically correct, readable, and self-documenting.
+Conceptual explanations are generally sound and physically motivated. The main
+minor issues are: the use of pandas (not in the allowed library list) in Notebook 2,
+a cost surface visualization that renders only a 3D surface without the contour
+complement, and a README that provides cloud screenshots but lacks a substantive
+local-vs-cloud comparative discussion. Overall, this is a strong submission.
+
+
+--------------------------------------------------------------------------------
+GRADING BREAKDOWN (0.0 – 5.0 scale)
+--------------------------------------------------------------------------------
+
+1. REPOSITORY STRUCTURE & COMPLIANCE  ...................  0.45 / 0.5
+   ✓ README.md present and well-structured
+   ✓ Two notebooks present: 01_part1_linreg_1feature.ipynb and 02_part2_polyreg.ipynb
+   ✓ Datasets defined as hard-coded NumPy arrays inside each notebook
+   ✓ Python, NumPy, and Matplotlib are the primary libraries
+   ✗ Notebook 2 imports and uses `pandas` (pd.DataFrame) for one display cell;
+     pandas is not in the allowed library list.
+   Deduction: -0.05 (minor, isolated violation; core computation is unaffected)
+
+2. NOTEBOOK 1 – LINEAR REGRESSION  ......................  1.75 / 2.0
+   ✓ Dataset (M, L) defined inline as NumPy arrays; scatter plot produced
+   ✓ Correct observation of non-linearity in the data
+   ✓ Hypothesis function predict(M, w, b) and MSE compute_cost() implemented
+   ✓ Cost surface evaluated on a W×B grid; 3D surface plot produced and interpreted
+   ~ Contour plot is missing: the code allocates a 2-subplot figure but only
+     renders the 3D surface (subplot 121); the second subplot (contour) is never
+     filled in, leaving the figure incomplete.
+   ✓ Correct mathematical derivation of ∂J/∂w and ∂J/∂b in markdown
+   ✓ Non-vectorized gradient descent: explicit loop over samples
+   ✓ Vectorized gradient descent: NumPy operations, numerically identical to loop
+   ✓ Convergence plot (cost vs. iterations) produced for α = 0.01
+   ✓ Discussion of convergence speed and plateau behavior is present, albeit brief
+   ✓ Three learning rates tested (0.01, 0.05, 0.1) with parameter/cost summary
+   ✓ Final fit plot with regression line over data; residual metrics (MSE, RMSE, MAE, R²)
+   ✓ Conceptual Q1 (meaning of w) addressed with physical interpretation
+   ✓ Conceptual Q2 (limits of linearity) addressed with clear physical reasoning
+   Deductions: -0.20 (missing contour plot in cost surface), -0.05 (convergence
+   discussion is brief and could be quantitatively deeper)
+
+3. NOTEBOOK 2 – POLYNOMIAL REGRESSION  ..................  1.85 / 2.0
+   ✓ L vs. M scatter plot with temperature encoded both by color (coolwarm colormap)
+     and by marker size; both encodings are informative
+   ✓ Feature engineering: build_features() constructs [M, T], [M, T, M²], and
+     [M, T, M², M·T] using vectorized NumPy column stacking
+   ✓ Feature standardization applied correctly (per-column mean/std, training stats
+     reused for inference)
+   ✓ Vectorized predict(), compute_cost(), and compute_gradients() (X.T @ errors)
+   ✓ Full gradient descent loop with history tracking; convergence plot on log scale
+   ✓ M1, M2, M3 models trained and compared; final losses and learned parameters
+     reported; predicted vs. actual inline scatter plots for all three models
+   ✓ Cost vs. w_MT sweep performed (300-point grid around optimal); parabolic curve
+     plotted; cost increase when w_MT = 0 quantified and interpreted
+   ✓ Inference demo for M=1.3, T=6600: features built, standardized with training
+     stats, predictions from all three models reported; reasonableness analysis
+     against nearest neighbors and theoretical L ∝ M^3.5 curve performed
+   ✗ `pandas` used in Cell 22 for DataFrame display (minor library violation)
+   ~ The convergence discussion for Notebook 2 is minimal (no commentary on
+     learning-rate sensitivity beyond the choice α=0.5)
+   Deductions: -0.10 (pandas violation, same as Notebook 1 component), -0.05
+   (limited convergence commentary)
+
+4. CLOUD EXECUTION EVIDENCE (SAGEMAKER)  ................  0.35 / 0.5
+   ✓ README includes a section "AWS SageMaker Execution Evidence"
+   ✓ Six screenshots (image-2.png through image-7.png) are referenced and present
+     in the /images directory, visually demonstrating notebook execution in SageMaker
+   ✓ At least one screenshot appears to show a rendered plot
+   ✗ The README does not contain a substantive local-vs-cloud comparison; the
+     "Cloud Execution Benefits" section lists generic architectural points rather
+     than a reflection on actual experience running these notebooks locally vs.
+     on SageMaker (e.g., environment setup, latency, reproducibility observed)
+   Deductions: -0.15 (missing explicit local vs. cloud comparison from the student's
+   direct experience with this submission)
+
+--------------------------------------------------------------------------------
+FINAL GRADE
+--------------------------------------------------------------------------------
+  Repository structure & compliance:    0.45 / 0.5
+  Notebook 1 – Linear regression:       1.75 / 2.0
+  Notebook 2 – Polynomial regression:   1.85 / 2.0
+  Cloud execution evidence:             0.35 / 0.5
+                                        -----------
+  TOTAL:                                4.40 / 5.0
+
+Final grade: 4.4 / 5.0   →   PASS  (threshold: 3.0 / 5.0)
+
+
+--------------------------------------------------------------------------------
+STRENGTHS
+--------------------------------------------------------------------------------
+- Clean, modular code structure: all functions are properly documented with
+  parameter/return docstrings and are reusable.
+- Both vectorized and non-vectorized gradient descent are implemented side-by-side
+  with numerical equivalence verified programmatically.
+- Feature engineering in Notebook 2 is thorough: standardization is correctly
+  applied using training-set statistics and properly propagated to inference.
+- The cost-vs-w_MT sweep is done rigorously (300 evaluation points, quantified
+  cost increase at w_MT=0, parabolic shape explained).
+- Inference demo is complete: raw features → standardization → prediction →
+  reasonableness check against neighbors and theoretical curve.
+- The physical/astrophysical motivation is woven throughout both notebooks,
+  demonstrating domain awareness (mass-luminosity power law, fusion physics).
+- README is well-organized and provides meaningful enterprise-architecture context.
+- SageMaker evidence (six screenshots) is visually substantive.
+
+
+--------------------------------------------------------------------------------
+ISSUES & MISSING ELEMENTS
+--------------------------------------------------------------------------------
+- Notebook 1, Cost Surface: the code allocates a two-panel figure (3D + contour)
+  but only the 3D surface is rendered; the contour panel is empty. A contour plot
+  would significantly aid in understanding the optimization landscape.
+- Notebook 2 (and incidentally Notebook 1 for a secondary display): `pandas` is
+  imported and used for DataFrame display. This violates the "NumPy and Matplotlib
+  only" constraint. The same table can be produced with formatted print statements.
+- README, Cloud Comparison: the "Cloud Execution Benefits" section lists generic
+  cloud advantages rather than a direct comparison of local vs. SageMaker execution
+  based on this specific submission (e.g., differences in environment setup,
+  execution time, reproducibility issues encountered).
+- Notebook 1, Convergence Discussion: the post-convergence commentary is brief.
+  A more quantitative analysis (e.g., reporting iterations-to-convergence per
+  learning rate, or rate of cost decay) would strengthen the discussion.
+- Notebook 2, Convergence Discussion: similarly minimal; no exploration of
+  alternative learning rates for the multi-feature case.
+- Notebook 1, Cost Surface: the surface plot range (w: 0–30, b: –10 to 5)
+  contains the minimum, but the actual optimum (w ≈ 19.5) is near the edge.
+  A wider or better-centered range would more clearly show the bowl shape.
+
+
+--------------------------------------------------------------------------------
+TA FEEDBACK TO STUDENT
+--------------------------------------------------------------------------------
+This is a technically sound submission that demonstrates genuine understanding of
+regression from first principles. Your implementation of gradient descent — both
+loop-based and vectorized — is correct and well-explained. The polynomial
+regression notebook is particularly strong: feature engineering, standardization,
+model comparison, interaction cost sweep, and inference are all handled carefully
+and in the right order.
+
+The most impactful improvement would be to complete the cost surface visualization
+in Notebook 1 by adding the contour plot that was intended (the figure axes exist
+but are unused). A contour plot is especially useful for interpreting the gradient
+descent trajectory and the shape of the optimization landscape.
+
+For compliance, replace the pandas DataFrame display in Notebook 2 with formatted
+print statements so that only the three allowed libraries are used.
+
+In the README, replace the generic cloud-benefits bullet list with a short
+first-person paragraph describing what you actually observed when running these
+specific notebooks on SageMaker versus locally — for example, any differences in
+setup, kernel selection, or rendering behavior.
+
+Finally, deepen the convergence discussions in both notebooks. For Notebook 1,
+report how many iterations each learning rate required to reach a stable cost
+(e.g., cost change < threshold). For Notebook 2, briefly discuss why α = 0.5
+was chosen and whether smaller or larger values were tried. These additions would
+elevate an already solid submission to excellent.
+
+Overall: well done. The fundamentals are solid and the code is clean and readable.
+
+
+--------------------------------------------------------------------------------
+AI-GENERATION ASSESSMENT  (NON-GRADING – INFORMATIVE ONLY)
+--------------------------------------------------------------------------------
+
+A. Qualitative Assessment
+--------------------------
+Indicators consistent with AI-assisted generation:
+- Docstrings are uniformly formatted, complete, and follow a consistent template
+  across all functions in both notebooks (Parameters / Returns / Description blocks).
+- Markdown cells use polished, structured prose with consistent heading hierarchy
+  and LaTeX math — very uniform in tone and depth.
+- Explanations tend toward textbook phrasing (e.g., "this is typical behavior for
+  gradient descent on convex functions") without personal reflection or trial-and-error.
+- Code style is highly consistent across both notebooks (variable naming, comment
+  density, print formatting) in a way that is uncommon in organically written code.
+- The step-by-step structure maps almost perfectly onto the assignment rubric with
+  minimal deviation or exploration beyond what is required.
+
+Indicators consistent with human authorship or customization:
+- Domain-specific references (solar masses, mass-luminosity relation L ∝ M^3.5–4,
+  nuclear fusion pressure context) suggest meaningful engagement with the material.
+- The decision to encode temperature with both color AND marker size is a small
+  creative choice not explicitly required by the rubric.
+- The reasonableness analysis in the inference section (comparing to neighbors and
+  the theoretical curve) goes slightly beyond the minimum, suggesting the student
+  shaped the analysis.
+- Some minor inconsistencies are present (the unused contour subplot, the pandas
+  import), which are the kind of oversights that occur when a student adapts
+  generated code rather than writing it verbatim.
+
+B. Quantitative Estimate
+--------------------------
+  Code (functions, loops, NumPy operations):  ~65–75% AI involvement
+  Explanations / markdown prose:              ~60–70% AI involvement
+  README:                                     ~70–80% AI involvement
+
+C. Commentary
+--------------------------
+Both notebooks exhibit the hallmarks of code and prose that were generated or
+heavily scaffolded with AI assistance: uniform docstring style, polished markdown,
+and a near-perfect structural match to the rubric. However, domain-specific details
+and small extras (dual temperature encoding, neighbor comparison in inference) suggest
+the student exercised judgment in directing and refining the output. The README
+follows a generic enterprise-architecture template that is consistent with AI
+generation. The minor compliance issues (pandas import, incomplete contour subplot)
+are best explained as artifacts of adapting generated code rather than reviewing
+it with full attention.
+
+This assessment is observational and does not imply misconduct.
+================================================================================
